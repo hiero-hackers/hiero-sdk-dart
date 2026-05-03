@@ -4,12 +4,10 @@ import 'package:convert/convert.dart';
 import 'package:cryptography/cryptography.dart';
 import 'package:hiero_sdk_dart/src/hapi/services/basic_types.pb.dart'
     as basic_types;
-import 'package:ed25519_edwards/ed25519_edwards.dart' as ed;
 
 import 'key.dart';
 
 class PublicKey extends Key {
-  /// Initializes a [PublicKey] from a cryptography public key object.
   final Object _publicKey;
 
   PublicKey(this._publicKey);
@@ -128,16 +126,24 @@ class PublicKey extends Key {
         .join();
   }
 
-  void verifyEd25519(Uint8List data, Uint8List signature) {
+  Future<void> verifyEd25519(Uint8List data, Uint8List signature) async {
     if (!isEd25519) {
       throw StateError('PublicKey is not an Ed25519 key');
     }
 
-    final publicKey = ed.PublicKey(toBytesEd25519());
-    final isValid = ed.verify(publicKey, data, signature);
+    final algo = Ed25519();
+    final isValid = await algo.verify(
+      data,
+      signature: Signature(signature, publicKey: _publicKey as SimplePublicKey),
+    );
 
     if (!isValid) {
       throw StateError('Ed25519 signature verification failed');
     }
+  }
+
+  @override
+  String toString() {
+    return 'PublicKey(${isEd25519 ? 'Ed 25519' : 'Unknown'})';
   }
 }

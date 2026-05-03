@@ -39,10 +39,10 @@ class Client {
   int maxAttempts = 10;
   Hbar defaultMaxQueryPaymentAmount = defaultMaxQueryPayment;
 
-  double _minBackoff = defaultMinBackoff;
-  double _maxBackoff = defaultMaxBackoff;
-  double _grpcDeadline = defaultGrpcDeadline;
-  double _requestTimeout = defaultRequestTimeout;
+  double minBackoff = defaultMinBackoff;
+  double maxBackoff = defaultMaxBackoff;
+  double grpcDeadline = defaultGrpcDeadline;
+  double requestTimeout = defaultRequestTimeout;
 
   Client({Network? network}) : network = network ?? Network() {
     _initMirrorStub();
@@ -62,9 +62,9 @@ class Client {
     final client = Client(network: await Network.create(network: networkName));
 
     final operatorIdStr =
-        Platform.environment['OPERATOR_ID'] ?? env['OPERATOR_ID'];
+        env['OPERATOR_ID'] ?? Platform.environment['OPERATOR_ID'];
     final operatorKeyStr =
-        Platform.environment['OPERATOR_KEY'] ?? env['OPERATOR_KEY'];
+        env['OPERATOR_KEY'] ?? Platform.environment['OPERATOR_KEY'];
 
     if (operatorIdStr == null || operatorIdStr.isEmpty) {
       throw ArgumentError(
@@ -217,13 +217,13 @@ class Client {
       throw ArgumentError('grpcDeadline must be a finite value greater than 0');
     }
 
-    if (grpcDeadline > _requestTimeout) {
+    if (grpcDeadline > requestTimeout) {
       stderr.writeln(
         'Warning: grpcDeadline should be smaller than requestTimeout. This configuration may cause operations to fail unexpectedly.',
       );
     }
 
-    _grpcDeadline = grpcDeadline.toDouble();
+    this.grpcDeadline = grpcDeadline.toDouble();
     return this;
   }
 
@@ -237,13 +237,13 @@ class Client {
       );
     }
 
-    if (requestTimeout < _grpcDeadline) {
+    if (requestTimeout < grpcDeadline) {
       stderr.writeln(
         'Warning: requestTimeout should be larger than grpcDeadline. This configuration may cause operations to fail unexpectedly.',
       );
     }
 
-    _requestTimeout = requestTimeout.toDouble();
+    this.requestTimeout = requestTimeout.toDouble();
     return this;
   }
 
@@ -254,11 +254,11 @@ class Client {
     if (!minBackoff.isFinite || minBackoff < 0) {
       throw ArgumentError('minBackoff must be a finite value >= 0');
     }
-    if (minBackoff > _maxBackoff) {
+    if (minBackoff > maxBackoff) {
       throw ArgumentError('minBackoff cannot exceed maxBackoff');
     }
 
-    _minBackoff = minBackoff.toDouble();
+    this.minBackoff = minBackoff.toDouble();
     return this;
   }
 
@@ -269,11 +269,11 @@ class Client {
     if (!maxBackoff.isFinite || maxBackoff < 0) {
       throw ArgumentError('maxBackoff must be a finite value >= 0');
     }
-    if (maxBackoff < _minBackoff) {
+    if (maxBackoff < minBackoff) {
       throw ArgumentError('maxBackoff cannot be less than minBackoff');
     }
 
-    _maxBackoff = maxBackoff.toDouble();
+    this.maxBackoff = maxBackoff.toDouble();
     return this;
   }
 

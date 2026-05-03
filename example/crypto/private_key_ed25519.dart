@@ -18,7 +18,7 @@ Future<void> exampleGenerateEd25519() async {
   print('Signature (hex) = ${hex.encode(signature)}');
 
   try {
-    pubKey.verifyEd25519(data, signature);
+    await pubKey.verifyEd25519(data, signature);
     print('Signature is VALID (Ed25519)!');
   } catch (_) {
     print('Signature is INVALID (Ed25519)!');
@@ -42,7 +42,7 @@ Future<void> exampleLoadEd25519Raw() async {
   final signature = await privKey.sign(data);
 
   try {
-    pubKey.verifyEd25519(data, signature);
+    await pubKey.verifyEd25519(data, signature);
     print('Signature valid with Ed25519 from raw seed!');
   } catch (_) {
     print('Signature invalid?!');
@@ -65,7 +65,7 @@ Future<void> exampleLoadEd25519FromHex() async {
   final signature = await privKey.sign(data);
 
   try {
-    pubKey.verifyEd25519(data, signature);
+    await pubKey.verifyEd25519(data, signature);
     print('Ed25519 signature valid with hex-loaded key!');
   } catch (_) {
     print('Signature invalid?!');

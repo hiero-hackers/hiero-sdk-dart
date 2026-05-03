@@ -27,35 +27,28 @@ class Channel {
 
   Channel(this.channel);
 
-  CryptoServiceClient? get crypto =>
-      channel == null ? null : _crypto ??= CryptoServiceClient(channel);
+  CryptoServiceClient? get crypto => _crypto ??= CryptoServiceClient(channel);
 
-  FileServiceClient? get file =>
-      channel == null ? null : _file ??= FileServiceClient(channel);
+  FileServiceClient? get file => _file ??= FileServiceClient(channel);
 
   NetworkServiceClient? get network =>
-      channel == null ? null : _network ??= NetworkServiceClient(channel);
+      _network ??= NetworkServiceClient(channel);
 
-  SmartContractServiceClient? get smartContract => channel == null
-      ? null
-      : _smartContract ??= SmartContractServiceClient(channel);
+  SmartContractServiceClient? get smartContract =>
+      _smartContract ??= SmartContractServiceClient(channel);
 
-  TokenServiceClient? get token =>
-      channel == null ? null : _token ??= TokenServiceClient(channel);
+  TokenServiceClient? get token => _token ??= TokenServiceClient(channel);
 
   ConsensusServiceClient? get topic =>
-      channel == null ? null : _topic ??= ConsensusServiceClient(channel);
+      _topic ??= ConsensusServiceClient(channel);
 
-  FreezeServiceClient? get freeze =>
-      channel == null ? null : _freeze ??= FreezeServiceClient(channel);
+  FreezeServiceClient? get freeze => _freeze ??= FreezeServiceClient(channel);
 
   ScheduleServiceClient? get schedule =>
-      channel == null ? null : _schedule ??= ScheduleServiceClient(channel);
+      _schedule ??= ScheduleServiceClient(channel);
 
-  UtilServiceClient? get util =>
-      channel == null ? null : _util ??= UtilServiceClient(channel);
+  UtilServiceClient? get util => _util ??= UtilServiceClient(channel);
 
-  AddressBookServiceClient? get addressBook => channel == null
-      ? null
-      : _addressBook ??= AddressBookServiceClient(channel);
+  AddressBookServiceClient? get addressBook =>
+      _addressBook ??= AddressBookServiceClient(channel);
 }

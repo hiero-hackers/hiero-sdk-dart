@@ -143,4 +143,9 @@ class PrivateKey extends Key {
     final pubKey = await publicKey();
     return await pubKey.toProtoKey();
   }
+
+  @override
+  String toString() {
+    return 'PrivateKey(${isEd25519 ? 'Ed25519' : 'Unknown'})';
+  }
 }

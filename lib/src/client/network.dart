@@ -83,7 +83,7 @@ class Network {
     required this.ledgerId,
     required this.nodes,
   }) {
-    transportSecurity = hostedNetworks.contains(this.network);
+    transportSecurity = hostedNetworks.contains(network);
     verifyCertificates = true;
     earliestReadmitPeriod = DateTime.now().add(nodeMinReadmitPeriod);
   }
@@ -98,7 +98,7 @@ class Network {
            mirrorAddress ?? mirrorAddressDefault[network ?? 'solo']!,
        ledgerId = ledgerId ?? ledgerIds[network ?? 'solo']!,
        nodes = nodes ?? [] {
-    transportSecurity = hostedNetworks.contains(this.network);
+    transportSecurity = hostedNetworks.contains(network);
     verifyCertificates = true;
     earliestReadmitPeriod = DateTime.now().add(nodeMinReadmitPeriod);
 
@@ -181,7 +181,6 @@ class Network {
       return nodes;
     }
     if (["solo", "localhost", "local"].contains(network)) {
-      print("local");
       return fetchNodesFromDefaultNodes();
     }
     List<Node> fetched = await fetchNodesFromMirrorNode();

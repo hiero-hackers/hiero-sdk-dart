@@ -110,7 +110,10 @@ class Node {
         await validateTlsCertWithTrustManager();
       }
 
-      final credentials = ChannelCredentials.secure(certificates: nodePemCert);
+      final credentials = ChannelCredentials.secure(
+        certificates: nodePemCert,
+        authority: "127.0.0.1",
+      );
       final channel_ = ClientChannel(
         address.getHost(),
         port: address.getPort(),
@@ -123,6 +126,9 @@ class Node {
         ),
       );
       channel = Channel(channel_);
+      // print(
+      //   "Created secure channel to ${address.getHost()}:${address.getPort()} with cert hash: ${utf8.decode(nodePemCert!)} and root cert hash: ${rootCertificates != null ? hex.encode(rootCertificates!) : 'null'}",
+      // );
     } else {
       final channel_ = ClientChannel(
         address.getHost(),
@@ -147,6 +153,7 @@ class Node {
       host,
       port,
       context: context,
+      onBadCertificate: (_) => true,
       timeout: Duration(seconds: certFetchTimeoutSeconds),
     );
 
@@ -157,6 +164,8 @@ class Node {
       }
 
       final pemCert = cert.pem;
+      // print(pemCert);
+      // print(Uint8List.fromList(utf8.encode(pemCert)));
       return Uint8List.fromList(utf8.encode(pemCert));
     } catch (e) {
       print("Error fetching server certificate: $e");

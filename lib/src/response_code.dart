@@ -363,7 +363,7 @@ class ResponseCode {
   static const int INVALID_BATCH_KEY = 394;
 
   factory ResponseCode(int code) {
-    final name = _knownNames[code] ?? 'UNKNOWN_CODE_$code';
+    final name = knownNames[code] ?? 'UNKNOWN_CODE_$code';
     return ResponseCode._(code, name);
   }
 
@@ -375,7 +375,7 @@ class ResponseCode {
   )
   static String getName(int code) => ResponseCode(code).name;
 
-  static const Map<int, String> _knownNames = <int, String>{
+  static const Map<int, String> knownNames = <int, String>{
     OK: 'OK',
     INVALID_TRANSACTION: 'INVALID_TRANSACTION',
     PAYER_ACCOUNT_NOT_FOUND: 'PAYER_ACCOUNT_NOT_FOUND',

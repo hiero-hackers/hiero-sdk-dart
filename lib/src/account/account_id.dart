@@ -2,8 +2,9 @@ import 'dart:typed_data';
 
 import 'package:convert/convert.dart';
 import 'package:fixnum/fixnum.dart' as fixnum;
+import 'package:hiero_sdk_dart/src/client/client.dart';
 import 'package:hiero_sdk_dart/src/crypto/public_key.dart';
-import 'package:hiero_sdk_dart/src/utils/entity_id_helper.dart';
+import 'package:hiero_sdk_dart/src/utils/entity_id_helper.dart' as utils;
 import 'package:hiero_sdk_dart/src/hapi/services/basic_types.pb.dart'
     as basic_types;
 
@@ -19,21 +20,21 @@ class AccountId {
   String? _checksum;
 
   AccountId({
-    required int shard,
-    required int realm,
-    required int num,
+    int? shard,
+    int? realm,
+    int? num,
     PublicKey? aliasKey,
     String? checksum,
-  }) : _shard = shard,
-       _realm = realm,
-       _num = num,
+  }) : _shard = shard ?? 0,
+       _realm = realm ?? 0,
+       _num = num ?? 0,
        _aliasKey = aliasKey,
        _checksum = checksum;
 
   factory AccountId.fromString(String accountIdStr) {
     try {
-      final (String shard, String realm, String num, String? checksum) =
-          parseFromString(accountIdStr);
+      final (String shard, String realm, String num, String? checksum) = utils
+          .parseFromString(accountIdStr);
       AccountId accountId = AccountId(
         shard: int.parse(shard),
         realm: int.parse(realm),
@@ -100,6 +101,10 @@ class AccountId {
     return accountIdProto;
   }
 
+  int get shard => _shard;
+  int get realm => _realm;
+  int get num => _num;
+
   String? get checksum => _checksum;
   Uint8List get toBytes => toProto().writeToBuffer();
 
@@ -107,5 +112,25 @@ class AccountId {
   String toString() {
     if (_aliasKey != null) return '$_shard.$_realm.${_aliasKey.toString()}';
     return '$_shard.$_realm.$_num';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (other is! AccountId) return false;
+    return _shard == other._shard &&
+        _realm == other._realm &&
+        _num == other._num &&
+        _aliasKey == other._aliasKey;
+  }
+
+  @override
+  int get hashCode => Object.hash(_shard, _realm, _num, _aliasKey);
+
+  void validateChecksum(Client client) {
+    if (_checksum == null) {
+      throw StateError('Checksum is not set for account ID: $this');
+    }
+    utils.validateChecksum(_shard, _realm, _num, _checksum!, client);
   }
 }
