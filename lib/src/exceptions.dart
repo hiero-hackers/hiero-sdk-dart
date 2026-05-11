@@ -78,13 +78,10 @@ class ReceiptStatusError implements Exception {
     final int code = statusOrCode is int
         ? statusOrCode
         : (statusOrCode as ResponseCode).code;
-    final String statusName = statusOrCode is ResponseCode
-        ? statusOrCode.name
-        : 'UNKNOWN';
     if (transactionId != null) {
-      return 'Receipt for transaction $transactionId contained error status: ${ResponseCode.knownNames[code]} ($code)';
+      return 'Receipt for transaction $transactionId contained error status: ${ResponseCode.knownNames[code] ?? "UNKNOWN"} ($code)';
     } else {
-      return 'Receipt contained error status: ${ResponseCode.knownNames[code]} ($code)';
+      return 'Receipt contained error status: ${ResponseCode.knownNames[code] ?? "UNKNOWN"} ($code)';
     }
   }
 

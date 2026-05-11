@@ -1,15 +1,6 @@
 import 'dart:io';
 
-import 'package:grpc/grpc.dart' as grpc;
 import 'package:hiero_sdk_dart/hiero_sdk_dart.dart';
-import 'package:hiero_sdk_dart/src/account/account_create_transaction.dart';
-import 'package:hiero_sdk_dart/src/account/account_id.dart';
-import 'package:hiero_sdk_dart/src/crypto/private_key.dart';
-import 'package:hiero_sdk_dart/src/hbar.dart';
-import 'package:hiero_sdk_dart/src/client/client.dart';
-import 'package:hiero_sdk_dart/src/response_code.dart';
-import 'package:hiero_sdk_dart/src/transaction/transaction_receipt.dart';
-import 'package:hiero_sdk_dart/src/transaction/transaction_response.dart';
 
 Future<void> createNewAccount(Client client) async {
   try {
@@ -26,7 +17,7 @@ Future<void> createNewAccount(Client client) async {
     print("Executing account create transaction...");
 
     await transaction.freezeWith(client);
-    await transaction.sign(client.operatorPrivateKey!);
+    await transaction.sign(operatorKey!);
 
     final receipt = await transaction.execute(client, timeout: 20);
 

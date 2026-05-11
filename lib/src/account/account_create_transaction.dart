@@ -1,8 +1,6 @@
 import 'package:fixnum/fixnum.dart';
 import 'package:hiero_sdk_dart/src/account/account_id.dart';
 import 'package:hiero_sdk_dart/src/channels.dart';
-import 'package:hiero_sdk_dart/src/crypto/key.dart';
-import 'package:hiero_sdk_dart/src/crypto/private_key.dart';
 import 'package:hiero_sdk_dart/src/crypto/public_key.dart';
 import 'package:hiero_sdk_dart/src/excecutable.dart';
 import 'package:hiero_sdk_dart/src/hbar.dart';
