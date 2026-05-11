@@ -19,9 +19,12 @@ include: package:lints/recommended.yaml
 #   rules:
 #     - camel_case_types
 
-# analyzer:
-#   exclude:
-#     - path/to/excluded/files/**
+analyzer:
+  errors: 
+    uri_does_not_exist: ignore
+    uri_has_not_been_generated: ignore
+  # exclude:
+  #   - path/to/excluded/files/**
 
 # For more information about the core and recommended set of lints, see
 # https://dart.dev/go/core-lints
