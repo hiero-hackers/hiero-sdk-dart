@@ -8,8 +8,8 @@ final RegExp _fromStringPattern = RegExp(
 
 class Hbar implements Comparable<Hbar> {
   static const Hbar zero = Hbar._fromTinybars(0);
-  static const Hbar max = Hbar._fromTinybars(50_000_000_000);
-  static const Hbar min = Hbar._fromTinybars(-50_000_000_000);
+  static const Hbar max = Hbar._fromTinybars(5000000000000000000);
+  static const Hbar min = Hbar._fromTinybars(-5000000000000000000);
 
   const Hbar._fromTinybars(this._amountInTinybars);
 
