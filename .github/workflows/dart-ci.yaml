@@ -20,6 +20,17 @@ jobs:
       - name: Install dependencies
         run: dart pub get
 
+      - name: Install protoc
+        run: sudo apt-get install -y protobuf-compiler
+
+      - name: Activate protoc_plugin
+        run: dart pub global activate protoc_plugin
+
+      - name: Generate Protobufs
+        run: |
+          export PATH="$PATH":"$HOME/.pub-cache/bin"
+          python3 generate_proto.py
+
     #   - name: Run analyzer
     #     run: dart analyze
 
